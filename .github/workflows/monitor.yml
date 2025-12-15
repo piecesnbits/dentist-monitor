@@ -1,0 +1,35 @@
+name: Dentist Monitor
+
+on:
+  # Run automatically every 30 minutes
+  schedule:
+    - cron: '*/30 * * * *'
+  # Run manually from the Actions tab
+  workflow_dispatch:
+  # Run on every push to main to verify code works
+  push:
+    branches: [ "main" ]
+
+jobs:
+  check-slots:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Check
+        run: npm run check
+        env:
+          # If your script needs to send an email or Telegram msg, add secrets here:
+          # TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          # TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
