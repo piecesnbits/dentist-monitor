@@ -2,21 +2,25 @@ import WebsiteMonitor from "./WebsiteMonitor.js";
 
 const monitor = new WebsiteMonitor({
   url: "https://tandenmondzorg.be/geel",
-  selector: "h2",
-  expectedText: "Tijdelijke patiëntenstop",
-  stateFile: "state.hash",
+  selector: "h2", 
+  expectedText: "Tijdelijke patiëntenstop"
+  // No stateFile needed anymore
 });
 
 const run = async () => {
-  const changed = await monitor.hasChanged();
-  const removed = await monitor.patientsStopRemoved();
+  console.log("Checking website...");
+  
+  const isOpen = await monitor.isPatientStopRemoved();
 
-  if (changed || removed) {
-    console.log("Website status changed");
-    process.exit(1); // signal GitHub Actions
+  if (isOpen) {
+    console.log("🚨 ALERT: The 'Patient Stop' text is GONE! Slots might be available.");
+    // Exit with error code 1 to turn the GitHub Action RED and send you an email
+    process.exit(1); 
   }
 
-  console.log("No change detected");
+  console.log("No change. Patient stop text is still there.");
+  // Exit with 0 (Success) so GitHub stays Green and doesn't spam you
+  process.exit(0);
 };
 
 run();
