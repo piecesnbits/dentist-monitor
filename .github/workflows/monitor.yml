@@ -29,7 +29,5 @@ jobs:
 
       - name: Run Check
         run: npm run check
-        # env:
-        #   # If your script needs to send an email or Telegram msg, add secrets here:
-        #   # TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-        #   # TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        env:
+          HA_WEBHOOK_URL: ${{ secrets.HA_WEBHOOK_URL }}
