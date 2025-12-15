@@ -1,9 +1,9 @@
 name: Dentist Monitor
 
 on:
-  # Run automatically every 30 minutes
+  # Run automatically every 2 hours
   schedule:
-    - cron: '*/30 * * * *'
+    - cron: '0 */2 * * *'
   # Run manually from the Actions tab
   workflow_dispatch:
   # Run on every push to main to verify code works
